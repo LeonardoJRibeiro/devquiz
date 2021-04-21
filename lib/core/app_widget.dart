@@ -1,4 +1,5 @@
 import 'package:DevQuiz/challeng/challeng_page.dart';
+import 'package:DevQuiz/home/home_page.dart';
 import 'package:DevQuiz/splash/splash_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _AppWidgetState extends State<AppWidget> {
       } else {
         print('User is signed in!');
         setState(() {
-          home = ChallengPage();
+          home = HomePage();
         });
       }
     });
