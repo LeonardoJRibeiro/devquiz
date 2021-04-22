@@ -1,3 +1,4 @@
+import 'package:DevQuiz/challeng/challeng_page.dart';
 import 'package:DevQuiz/core/app_colors.dart';
 import 'package:DevQuiz/home/home_controller.dart';
 import 'package:DevQuiz/home/home_state.dart';
@@ -71,6 +72,12 @@ class _HomePageState extends State<HomePage> {
                       .map(
                         (quiz) => QuizCardWidget(
                           quiz: quiz,
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChallengPage(
+                                        questions: quiz.questions,
+                                      ))),
                         ),
                       )
                       .toList(),
