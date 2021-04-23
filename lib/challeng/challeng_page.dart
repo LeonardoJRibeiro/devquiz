@@ -1,14 +1,21 @@
+import 'package:flutter/material.dart';
+
 import 'package:DevQuiz/challeng/challeng_controller.dart';
 import 'package:DevQuiz/challeng/widgets/next_button/next_button_widget.dart';
-import 'package:DevQuiz/challeng/widgets/quiz/quiz_widget.dart';
-import 'package:DevQuiz/shared/models/question_model.dart';
-import 'package:flutter/material.dart';
 import 'package:DevQuiz/challeng/widgets/question_indicator/question_indicator_widget.dart';
+import 'package:DevQuiz/challeng/widgets/quiz/quiz_widget.dart';
+import 'package:DevQuiz/result/result_page.dart';
+import 'package:DevQuiz/shared/models/question_model.dart';
 
 class ChallengPage extends StatefulWidget {
   final List<QuestionModel> questions;
+  final String title;
 
-  const ChallengPage({Key? key, required this.questions}) : super(key: key);
+  const ChallengPage({
+    Key? key,
+    required this.questions,
+    required this.title,
+  }) : super(key: key);
   @override
   _ChallengPageState createState() => _ChallengPageState();
 }
@@ -31,6 +38,13 @@ class _ChallengPageState extends State<ChallengPage> {
         duration: Duration(milliseconds: 250),
         curve: Curves.linear,
       );
+  }
+
+  void onSelected(bool value) {
+    if (value) {
+      controller.answersRight++;
+    }
+    goToNextPage();
   }
 
   @override
@@ -67,7 +81,7 @@ class _ChallengPageState extends State<ChallengPage> {
             .map(
               (question) => QuizWidget(
                 question: question,
-                onChange: () => goToNextPage(),
+                onSelected: onSelected,
               ),
             )
             .toList(),
@@ -92,7 +106,16 @@ class _ChallengPageState extends State<ChallengPage> {
                   Expanded(
                     child: NextButtonWidget.green(
                       label: "Confirmar",
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResultPage(
+                            title: widget.title,
+                            length: widget.questions.length,
+                            result: controller.answersRight,
+                          ),
+                        ),
+                      ),
                     ),
                   )
               ],
